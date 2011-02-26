@@ -1,16 +1,27 @@
 module Tomahto
+#   class Set
+#     def initialize
+#     end
+# 
+#     def start
+#       Pomodoro.run
+#     end
+#   end
+
   class Pomodoro
-    def initialize
+    def initialize(activity_length=25, break_length=5, iterations=4)
+      @activity_length = activity_length
+      @break_length = break_length
+      @iterations = iterations
     end
 
     def run
-      4.times do 
-        progress "activity", 25
+      @iterations.times do 
+        progress "Activity", @activity_length
         notify "Tomahto: Iteration Complete!", "Take a short break and remember to add a mark to your activity."
-        progress "break", 5
+        progress "Break", @break_length
         notify "Tomahto: Break's over!", "On to the next pomodoro."
       end
-      notify "You've completed a set. Take a longer break."
     end
 
     protected
@@ -18,9 +29,9 @@ module Tomahto
     def progress(label, minutes)
       1.upto(minutes * 60) do |second|
         display_progress(label, minutes, second)
-        Kernel.sleep 1
+        Kernel.sleep 0.01
       end
-      print "\n"
+      puts "\n"
     end
 
     def display_progress(label, minutes, second)
@@ -35,7 +46,7 @@ module Tomahto
 
     def notify(summary, message)
       puts message
-      system("notify-send -t 500 \"#{summary}\" \"#{message}\"")
+      Kernel.system("notify-send -t 500 \"#{summary}\" \"#{message}\"")
     end
   end
 
