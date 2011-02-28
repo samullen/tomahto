@@ -2,28 +2,32 @@ require 'spec_helper'
 require 'tomahto'
 
 describe Tomahto::Pomodoro do
+  before { @config = {:sleep_length => 0.01}}
+
   context "::new" do
     it 'instantiates a new Pomodoro instance' do
       Tomahto::Pomodoro.new.should be_an_instance_of Tomahto::Pomodoro
     end
 
     it "sets default values" do
-      @tp = Tomahto::Pomodoro.new
-      @tp.instance_variable_get(:@activity_length).should eq(25)
-      @tp.instance_variable_get(:@break_length).should eq(5)
-      @tp.instance_variable_get(:@iterations).should eq(4)
+      tp = Tomahto::Pomodoro.new
+      tp.instance_variable_get(:@activity_length).should eq(25)
+      tp.instance_variable_get(:@break_length).should eq(5)
+      tp.instance_variable_get(:@iterations).should eq(4)
     end
 
     it "sets values based on what is passed to new" do
-      @tp = Tomahto::Pomodoro.new(30, 10)
-      @tp.instance_variable_get(:@activity_length).should eq(30)
-      @tp.instance_variable_get(:@break_length).should eq(10)
-      @tp.instance_variable_get(:@iterations).should eq(4)
+      @config.merge!({:activity_length => 30, :break_length => 10})
+
+      tp = Tomahto::Pomodoro.new(@config)
+      tp.instance_variable_get(:@activity_length).should eq(30)
+      tp.instance_variable_get(:@break_length).should eq(10)
+      tp.instance_variable_get(:@iterations).should eq(4)
     end
   end
 
   context "#run" do
-    before { @tp = Tomahto::Pomodoro.new }
+    before { @tp = Tomahto::Pomodoro.new(@config) }
 
     it "runs for thirty minutes" do
       @tp.stub(:progress)
@@ -39,7 +43,7 @@ describe Tomahto::Pomodoro do
 
   describe "Private Methods" do
     before do
-      @tp = Tomahto::Pomodoro.new 
+      @tp = Tomahto::Pomodoro.new(@config) 
       @summary = "summary"
       @message = "message"
 

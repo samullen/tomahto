@@ -9,10 +9,11 @@ module Tomahto
 #   end
 
   class Pomodoro
-    def initialize(activity_length=25, break_length=5, iterations=4)
-      @activity_length = activity_length
-      @break_length = break_length
-      @iterations = iterations
+    def initialize(config={})
+      @activity_length = config[:activity_length] || 25
+      @break_length    = config[:break_length] || 5
+      @iterations      = config[:iterations] || 4
+      @sleep_length    = config[:sleep_length] || 1
     end
 
     def run
@@ -50,6 +51,6 @@ module Tomahto
     end
   end
 
-  class Activity
-  end
+#   class Activity
+#   end
 end
