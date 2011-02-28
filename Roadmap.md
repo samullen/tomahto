@@ -1,5 +1,6 @@
 * Build Gemspec
 * Build Rakefile
+* YAML configuration
 * Figure out the binfile bit
 * Change progress bar color according to time left. (green yellow red)
 * notifications according to system (Mac Growl, LInux notify, Windows ???)

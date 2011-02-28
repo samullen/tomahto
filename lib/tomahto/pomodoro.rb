@@ -29,7 +29,7 @@ module Tomahto
     def progress(label, minutes)
       1.upto(minutes * 60) do |second|
         display_progress(label, minutes, second)
-        Kernel.sleep 0.01
+        Kernel.sleep 1
       end
       puts "\n"
     end
