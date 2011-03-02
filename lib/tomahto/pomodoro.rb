@@ -41,8 +41,15 @@ module Tomahto
       progress_left      = minutes - progress_past
       minutes_left       = total_seconds_left / 60
       seconds_left       = total_seconds_left % 60
+      color = "\e[0;32m"
 
-      printf "\r%20s - %s%s - %.2d:%.2d", label, "#" * progress_past, "." * progress_left, minutes_left, seconds_left
+      if minutes_left < 2
+        color = "\e[0;31m"
+      elsif minutes_left < 5
+        color = "\e[1;33m"
+      end
+
+      printf "\r%20s - #{color}%s%s\e[m - %.2d:%.2d", label, "#" * progress_past, "." * progress_left, minutes_left, seconds_left
     end
 
     def notify(summary, message)
