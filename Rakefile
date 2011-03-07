@@ -1,9 +1,10 @@
 $:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
+$:.unshift File.expand_path(File.join(File.dirname(__FILE__), 'spec'))
 
 require 'rubygems'
 require 'tomahto'
-# require 'rake/testtask'
 require 'rake/gempackagetask'
+require "rspec/core/rake_task" 
 
 lib_files = Dir['lib/**/*.rb']
 spec_files = Dir['spec/**/*.rb']
@@ -23,6 +24,28 @@ gem_spec = Gem::Specification.new do |s|
     "bin/tomahto",
   ] + spec_files + lib_files
 end
+
+desc "Run specs"
+RSpec::Core::RakeTask.new(:core) do |spec|
+  spec.pattern = 'spec/tomahto/*_spec.rb'
+  spec.rspec_opts = ["--color", "--require", "spec/spec_helper.rb"]
+end
+
+# namespace :spec do
+# 
+#   desc "Run all specifications verbosely"
+#   RSpec::Core::RakeTask.new(:verbose) do |t|
+#     t.libs << "lib"
+#     t.spec_opts = ["--color", "--format", "specdoc", "--require", "spec/spec_helper.rb"]
+#   end
+# 
+#   desc "Run specific specification verbosely (specify SPEC)"
+#   RSpec::Core::RakeTask.new(:select) do |t|
+#     t.libs << "lib"
+#     t.spec_files = [ENV["SPEC"]]
+#     t.spec_opts = ["--color", "--format", "specdoc", "--require", "spec/spec_helper.rb"]
+#   end
+# end
 
 # Rake::TestTask.new(:test) do |test|
 #   test.libs = [lib_dir, test_dir]
